@@ -1,0 +1,114 @@
+!!!
+%html
+  %head
+    %title #{@page_title} - #{Shoppe.settings.store_name}
+    = stylesheet_link_tag :application
+    = javascript_include_tag :application
+    = csrf_meta_tags
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    = yield :head
+  %body
+    
+    %div.demo
+      .inner
+        %ul.links
+          %li= link_to "ADMINISTRAR", "/shoppe"
+          
+        %p.text Bienvenido a su <em>LIQUOR STORE</em>
+    
+    / The main header displayed on all pages
+    / Sometimes will be shorted as the page content dictates. 
+    %header.main{:class => @full_header ? 'full' : 'basic'}
+      .inner.container-fluid
+        / Primary navigation
+        
+        %nav.navbar.navbar-inverse
+          .container
+            .navbar-header
+              %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+                %span.sr-only Toggle navigation
+                
+              = link_to 'Home', root_path, class: 'navbar-brand'
+            .collapse.navbar-collapse
+              %ul.nav.navbar-nav
+                %li.dropdown
+                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "products"}
+                    Our catalogue
+                    %b.caret
+
+                  //= link_to "Our catalogue", catalogue_path, :nav_item => :catalogue, :class => 'dropdown-toggle', "data-toggle" => "dropdown"
+
+                  %ul.dropdown-menu
+                    - for category in Shoppe::ProductCategory.ordered
+                      %li= link_to category.name, products_path(category.permalink)
+                %li= link_to "Why shop with us?", page_path(:why), :nav_item => :why
+                %li= link_to "FAQs", page_path(:faqs), :nav_item => :faqs
+                %li= link_to "Get in touch", page_path(:contact), :nav_item => :contact              
+            
+
+        %nav.main
+         
+          %h3= link_to Shoppe.settings.store_name, root_path
+        
+        - if @full_header
+          %h2 Welcome to our <em>LIQUOR STORE </em>.
+          %p.intro Entregamos a nuestros clientes los mejores productos del mercado a los mejores precios, con calidad y garantia.
+      
+      - if @full_header
+        .bar
+          .inner
+            
+            %p.offer <b>El mejor lugar para clamar la sed!!!!!!!.
+    
+    
+    / Main content section
+    %section.content
+      .inner
+      
+        / Sidebar
+        %section.sidebar
+          - if content_for?(:sidebar)
+            = yield :sidebar
+          - else
+            = render 'shared/basket'
+            = render 'shared/reasons'
+      
+        / Primary section
+        %section.primary
+          = yield
+      
+    / Footer
+    %footer.main
+      .inner
+        / Useful footer links (policies etc...)
+        %ul.links
+
+          %li= link_to "Terms & Conditions", page_path(:terms)
+          %li= link_to "Privacy policy", page_path(:privacy)
+          %li= link_to "Returns policy", page_path(:returns)
+          %li= link_to "Frequently asked questions", page_path(:faqs)
+          %li= link_to "Cookie policy", page_path(:cookies)
+      
+        .callUs
+          %p Consultas al:
+          %p.number 1800 555 555
+          %p Trabajamos las 24 horas del día 
+          
+          / Links to social media
+          %ul.social
+            %li.twitter= link_to "Twitter", 'http://twitter.com'
+            %li.facebook= link_to "Facebook", "http://facebook.com"
+            %li.pinterest= link_to "Pinterest", "http://pinterest.com"
+            %li.linkedin= link_to "Linked In", "http://linkedin.com"
+            %li.vimeo= link_to "Vimeo", "http://vimeo.com"
+            %li.youtube= link_to "Youtube", "http://youtube.com"
+      
+        / Copyright & trademark information
+        .copyright
+          %p &copy; #{Date.today.year} LIQUOR STORE. All Rights Reserved.
+          %p All third party logos &amp; product images &copy; their respective owners.
+          %p
+            LIQUOR STORE <br/>
+            Company registration number: 8514362.<br />
+            VAT registration number: GB 123 123 123.
+          

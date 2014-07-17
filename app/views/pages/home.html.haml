@@ -3,7 +3,8 @@
 - @page_title = 'Welcome'
 
 .home
-  %p.browse= link_to "Browse our whole catalogue", catalogue_path
-  %h2 Introducing our featured products
+  %p.browse= link_to "Busqueda de catalogo", catalogue_path
+  %h2 Mas Destacados!!! (precios no incluyen IVA)
+
 
 = render 'shared/product_list', :products => @products.includes(:default_image)

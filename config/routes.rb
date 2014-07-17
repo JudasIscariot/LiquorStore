@@ -1,5 +1,6 @@
 ExampleStore::Application.routes.draw do
 
+  
   #
   # Shoppe admin interface
   #
@@ -44,6 +45,6 @@ ExampleStore::Application.routes.draw do
   # 
   # Homepage
   #
-  root :to => 'pages#home'
+  root :to => 'welcome#index'
   
 end
